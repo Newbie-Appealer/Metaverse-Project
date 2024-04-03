@@ -111,6 +111,7 @@ MonoBehaviour:
   f_MoveSpeed: 5
   f_RunSpeed: 5
   f_RotateSpeed: 5
+  f_JumpSpeed: 10
   obj_Rotate_Horizontal: {fileID: 697785503197186243}
   obj_Rotate_Vertical: {fileID: 3746447047682781521}
   obj_Body: {fileID: 2374430763718696840}

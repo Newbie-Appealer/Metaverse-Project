@@ -16,10 +16,17 @@ public class Character_Controller : MonoBehaviour
     [Range(0, 100f)]
     public float f_RotateSpeed;
 
+    [Range(5, 10f)]
+    public float f_JumpSpeed;
+
     public GameObject obj_Rotate_Horizontal;
     public GameObject obj_Rotate_Vertical;
     public GameObject obj_Body;
     public GameObject obj_Cam_First, obj_Cam_Quarter;
+
+
+    private Rigidbody _rb;
+    private bool _isGrounded = true;
 
     // Start is called before the first frame update
     private void Start()
@@ -36,6 +43,9 @@ public class Character_Controller : MonoBehaviour
             obj_Cam_Quarter.SetActive(false);
             this.gameObject.name += "(OtherPlayer)";
         }
+
+        _rb = GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
@@ -125,9 +135,11 @@ public class Character_Controller : MonoBehaviour
                 m_Animator.SetBool("Walk", false);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            _isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.1f);
+            if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
             {
                 m_Animator.SetTrigger("Jump");
+                _rb.AddForce(Vector3.up * f_JumpSpeed, ForceMode.Impulse);
             }
 
             if (Input.GetMouseButton(1))
