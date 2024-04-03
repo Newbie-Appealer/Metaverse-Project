@@ -36,12 +36,15 @@ public class Character_Controller : MonoBehaviour
             obj_Cam_First.SetActive(false);
             obj_Cam_Quarter.SetActive(true);
             this.gameObject.name += "(LocalPlayer)";
+
+            RankingManager.Instance.F_AddUser(this.gameObject);
         }
         else
         {
             obj_Cam_First.SetActive(false);
             obj_Cam_Quarter.SetActive(false);
             this.gameObject.name += "(OtherPlayer)";
+            RankingManager.Instance.F_AddUser(this.gameObject);
         }
 
         _rb = GetComponent<Rigidbody>();

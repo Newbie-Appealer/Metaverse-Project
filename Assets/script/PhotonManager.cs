@@ -11,10 +11,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     [Header("infomation")]
     [SerializeField] GameObject _localPlayerObject;                 // 생성된 플레이어 오브젝트
-    [SerializeField] List<GameObject> _globalPlayers;               // 생성된 플레이어들의 오브젝트.
+
     private void Start()
     {
-        _globalPlayers = new List<GameObject>();
 
         DefaultPool pool = PhotonNetwork.PrefabPool as DefaultPool;
         pool.ResourceCache.Clear();
