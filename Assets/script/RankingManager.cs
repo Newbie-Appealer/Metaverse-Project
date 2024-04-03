@@ -4,17 +4,29 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[System.Serializable]
+public class RealTimeRankding
+{
+    public string name;
+    public float distance;
+
+    public RealTimeRankding(string name, float distance)
+    {
+        this.name = name;
+        this.distance = distance;
+    }
+}
 
 public class RankingManager : Singleton<RankingManager>
 {
     [SerializeField] private List<GameObject> _globalPlayers;               // 생성된 플레이어들의 오브젝트.
-    [SerializeField] private List<Tuple<float,string>> _realTimeRanking;             // 실시간 랭킹 ( 정렬 )
+    [SerializeField] private List<RealTimeRankding> _realTimeRanking;             // 실시간 랭킹 ( 정렬 )
 
     protected override void InitManager()
     {
         // 초기화
         _globalPlayers = new List<GameObject>();
-        _realTimeRanking = new List<Tuple<float, string>>();
+        _realTimeRanking = new List<RealTimeRankding>();
 
         StartCoroutine(C_RealTimeRankingSort());
     }
@@ -40,19 +52,13 @@ public class RankingManager : Singleton<RankingManager>
                     _globalPlayers.RemoveAt(i);
                     continue;
                 }
-                Tuple<float, string> tmpTuple = new Tuple<float, string>
-                    (_globalPlayers[i].transform.position.y, _globalPlayers[i].name);
+                RealTimeRankding tmpTuple = new RealTimeRankding(_globalPlayers[i].name, _globalPlayers[i].transform.position.y);
                 _realTimeRanking.Add(tmpTuple);
             }
 
             _realTimeRanking.Sort
-                (delegate (Tuple<float, string> a, Tuple<float, string> b)
-                { return a.Item1.CompareTo(b.Item1); });
-
-            foreach(Tuple<float,string> item in _realTimeRanking)
-            {
-                Debug.Log(item.Item1 + " / " + item.Item2);
-            }
+                (delegate (RealTimeRankding a, RealTimeRankding b)
+                { return a.distance.CompareTo(b.distance); });
         }
     }
 
