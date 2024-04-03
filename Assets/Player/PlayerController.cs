@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     private float _moveSpeed = 5f;
     private float _jumpSpeed = 7f;
 
+    [Header("=== Roration ===")]
+    private Vector3 _rotationX;
+    private float _rotationY;
+    private float _mouseSensitivity = 300f;
+
     [Header("=== Object ===")]
     [SerializeField] private GameObject obj_Cam_First, obj_Cam_Quarter;
     [SerializeField] private GameObject obj_Rotate_Horizontal;
@@ -50,10 +55,10 @@ public class PlayerController : MonoBehaviour
 
     public void F_InitDelegate()
     {
-        if (_pv.IsMine)
-        {
+            playerController += F_PlayerHorizonRotate;
+            playerController += F_CameraVerticalMove;
             playerController += F_PlayerMove;
-        }
+
     }
     private void F_PlayerMove()
     {
@@ -125,6 +130,21 @@ public class PlayerController : MonoBehaviour
         _man_Animator.SetTrigger("Jump");
     }
 
+    private void F_PlayerHorizonRotate()
+    {
+        float _mouseX = Input.GetAxisRaw("Mouse X");
+        _rotationX = new Vector3(0, _mouseX, 0) * _mouseSensitivity * Time.deltaTime;
+        _rb.MoveRotation(_rb.rotation * Quaternion.Euler(_rotationX));
+    }
+    private void F_CameraVerticalMove()
+    {
+        float _mouseY = Input.GetAxisRaw("Mouse Y");
+        _rotationY -= _mouseY * _mouseSensitivity * Time.deltaTime;
+        _rotationY = Mathf.Clamp(_rotationY, 80f, 130f);
+        obj_Cam_Quarter.transform.localEulerAngles = new Vector3(_rotationY, 0, 0);
+    }
+    
+    
     private void Update()
     {
         if(_pv.IsMine) 
