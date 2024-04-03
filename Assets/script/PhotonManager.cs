@@ -66,6 +66,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
+        // 방 입장
         Debug.Log("Photon : OnJoinedRoom");
         F_CreatePlayer();
     }
@@ -73,26 +74,32 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
+        // 방 만듬
         Debug.Log("Photon : OnCreatedRoom");
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
+        // 방 생성 실패
         Debug.Log("Photon : OnCreateRoomFailed returnCode : " + returnCode + ", message : " + message);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
+        // 방 입장 실패
         Debug.Log("Photon : OnJoinRoomFailed returnCode : " + returnCode + ", message : " + message);
     }
     public override void OnLeftRoom()
     {
+        // 퇴장
         Debug.Log("Photon : OnLeftRoom");
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        // 유저 입장했을때
         Debug.Log("Photon : OnPlayerEnteredRoom newPlayer : " + newPlayer.UserId);
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        // 유저 퇴장했을때
         Debug.Log("Photon : OnPlayerLeftRoom otherPlayer : " + otherPlayer.UserId);
     }
 }
