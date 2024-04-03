@@ -20,7 +20,7 @@ public class RealTimeRankding
 public class RankingManager : Singleton<RankingManager>
 {
     [SerializeField] private List<GameObject> _globalPlayers;               // 생성된 플레이어들의 오브젝트.
-    [SerializeField] private List<RealTimeRankding> _realTimeRanking;             // 실시간 랭킹 ( 정렬 )
+    [SerializeField] private List<RealTimeRankding> _realTimeRanking;       // 실시간 랭킹 ( 정렬 )
 
     protected override void InitManager()
     {
@@ -28,6 +28,7 @@ public class RankingManager : Singleton<RankingManager>
         _globalPlayers = new List<GameObject>();
         _realTimeRanking = new List<RealTimeRankding>();
 
+        // 실시간 랭킹 코루틴 실행
         StartCoroutine(C_RealTimeRankingSort());
     }
 
@@ -56,14 +57,7 @@ public class RankingManager : Singleton<RankingManager>
                 _realTimeRanking.Add(tmpTuple);
             }
 
-            _realTimeRanking.Sort
-                (delegate (RealTimeRankding a, RealTimeRankding b)
-                { return a.distance.CompareTo(b.distance); });
+            _realTimeRanking.Sort (delegate (RealTimeRankding a, RealTimeRankding b) { return a.distance.CompareTo(b.distance); });
         }
-    }
-
-    private static bool CompareIntMethod(float a, float b)
-    {
-        return a < b;
     }
 }
