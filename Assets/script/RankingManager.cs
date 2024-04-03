@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -19,6 +20,7 @@ public class RealTimeRankding
 
 public class RankingManager : Singleton<RankingManager>
 {
+
     [SerializeField] private List<GameObject> _globalPlayers;               // 생성된 플레이어들의 오브젝트.
     [SerializeField] private List<RealTimeRankding> _realTimeRanking;       // 실시간 랭킹 ( 정렬 )
 
@@ -28,7 +30,7 @@ public class RankingManager : Singleton<RankingManager>
         _globalPlayers = new List<GameObject>();
         _realTimeRanking = new List<RealTimeRankding>();
 
-        // 실시간 랭킹 코루틴 실행
+        // 실시간 랭킹 코루틴 실행 ( local )
         StartCoroutine(C_RealTimeRankingSort());
     }
 
