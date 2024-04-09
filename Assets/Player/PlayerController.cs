@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,8 +12,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rb;
     private bool _isGrounded = true;
     private float _moveSpeed = 5f;
-    [SerializeField]
-    private float _jumpSpeed = 7f;
+    private Image _jump_Gauge;
+    [SerializeField] private float _jumpSpeed = 0f;
+    
+    
 
     [Header("=== Roration ===")]
     private Vector3 _rotationX;
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         F_InitController();
+        _jump_Gauge = UIManager.Instance.F_GetJumpGauge();
     }
     public void F_InitController()
     {
@@ -127,12 +131,18 @@ public class PlayerController : MonoBehaviour
     private void F_PlayerJump()
     {
         if (Input.GetKey(KeyCode.Space))
+        {
+            _jump_Gauge.fillAmount =  _jumpSpeed / 14f;
             _jumpSpeed += Time.deltaTime * 7f;
+            if (_jumpSpeed > 14f)
+                _jumpSpeed = 14f;
+        }
         if (Input.GetKeyUp(KeyCode.Space))
         {
         _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
         _man_Animator.SetTrigger("Jump");
         _jumpSpeed = 0f;
+        _jump_Gauge.fillAmount = 0f;
         }
     }
 

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
     [Header("=== FPS ===")]
     private float _deltaTime = 0f;
@@ -13,7 +13,10 @@ public class UIManager : MonoBehaviour
 
     [Header("=== Login ===")]
     [SerializeField] private GameObject _login_Panel;
-    private void Start()
+
+    [Header("=== Player ===")]
+    [SerializeField] private Image _player_JumpGauge;
+    protected override void InitManager()
     {
         _style = new GUIStyle();
         _style.fontSize = 32;
@@ -40,4 +43,10 @@ public class UIManager : MonoBehaviour
     {
         _login_Panel.SetActive(false);
     }
+
+    public Image F_GetJumpGauge()
+    {
+        return _player_JumpGauge;
+    }
+
 }
