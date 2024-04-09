@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110ce4c85dd6c1b4684f4f71358f76b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jumpSpeed: 7
   obj_Cam_First: {fileID: 3738339002912586576}
   obj_Cam_Quarter: {fileID: 8337538511887817034}
   obj_Rotate_Horizontal: {fileID: 697785503197186243}

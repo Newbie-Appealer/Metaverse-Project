@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rb;
     private bool _isGrounded = true;
     private float _moveSpeed = 5f;
+    [SerializeField]
     private float _jumpSpeed = 7f;
 
     [Header("=== Roration ===")]
@@ -119,15 +120,20 @@ public class PlayerController : MonoBehaviour
         }
         if (_isGrounded)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-                F_PlayerJump();
+            F_PlayerJump();
         }
     }
 
     private void F_PlayerJump()
     {
+        if (Input.GetKey(KeyCode.Space))
+            _jumpSpeed += Time.deltaTime * 7f;
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
         _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
         _man_Animator.SetTrigger("Jump");
+        _jumpSpeed = 0f;
+        }
     }
 
     private void F_PlayerHorizonRotate()
