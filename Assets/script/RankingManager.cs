@@ -21,7 +21,7 @@ public class RealTimeRankding
 public class RankingManager : Singleton<RankingManager>
 {
 
-    [SerializeField] private List<GameObject> _globalPlayers;               // 생성된 플레이어들의 오브젝트.
+    public List<GameObject> _globalPlayers;               // 생성된 플레이어들의 오브젝트.
     [SerializeField] private List<RealTimeRankding> _realTimeRanking;       // 실시간 랭킹 ( 정렬 )
 
     protected override void InitManager()
