@@ -11,6 +11,9 @@ public class UIManager : Singleton<UIManager>
     private Rect _rect;
     private GUIStyle _style;
 
+    [Header("=== Loding ===")]
+    [SerializeField] private GameObject _loding_panel;
+
     [Header("=== Login ===")]
     [SerializeField] private GameObject _login_Panel;
 
@@ -48,5 +51,13 @@ public class UIManager : Singleton<UIManager>
     {
         return _player_JumpGauge;
     }
+    public void F_OnLoding(bool v_state)
+    {
+        _loding_panel.SetActive(v_state);
 
+        if(!v_state)
+        {
+            // 로딩 화면이 꺼질때 동작
+        }
+    }
 }

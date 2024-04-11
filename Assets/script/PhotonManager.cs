@@ -69,6 +69,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         // 방 입장
         Debug.Log("Photon : OnJoinedRoom");
         F_CreatePlayer();
+
+        UIManager.Instance.F_OnLoding(false);       // 캐릭터 생성 완료 -> 로딩 완료
     }
 
 
