@@ -55,8 +55,8 @@ public class RankingManager : Singleton<RankingManager>
                     _globalPlayers.RemoveAt(i);
                     continue;
                 }
-                RealTimeRankding tmpTuple = new RealTimeRankding(_globalPlayers[i].name, _globalPlayers[i].transform.position.y);
-                _realTimeRanking.Add(tmpTuple);
+                RealTimeRankding playerData = new RealTimeRankding(_globalPlayers[i].name, _globalPlayers[i].transform.position.y);
+                _realTimeRanking.Add(playerData);
             }
 
             _realTimeRanking.Sort (delegate (RealTimeRankding a, RealTimeRankding b) { return a.distance.CompareTo(b.distance); });
