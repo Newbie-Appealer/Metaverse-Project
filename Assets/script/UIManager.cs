@@ -19,7 +19,6 @@ public class UIManager : Singleton<UIManager>
 
     [Header("=== Player ===")]
     [SerializeField] private Image _player_JumpGauge;
-    [SerializeField] private TextMeshProUGUI _playerNickName;
     protected override void InitManager()
     {
         _style = new GUIStyle();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
@@ -11,9 +12,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     [Header("infomation")]
     [SerializeField] GameObject _localPlayerObject;                 // 생성된 플레이어 오브젝트
-
+    [SerializeField] Dictionary<int, GameObject> _playerObjects;
     private void Start()
     {
+        _playerObjects = new Dictionary<int, GameObject>();
 
         DefaultPool pool = PhotonNetwork.PrefabPool as DefaultPool;
         pool.ResourceCache.Clear();
@@ -35,17 +37,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.ConnectUsingSettings();
             Debug.Log("ConnectUsingSettings");
-        }
 
+            
+        }
         // 서버 접속 실패했을때 동작 추가해야할듯?
     }
 
     private void F_CreatePlayer()
     {
         _localPlayerObject = PhotonNetwork.Instantiate(_PhotonPrefabs[0].name, _spawnPoint.position, Quaternion.identity);
-        _localPlayerObject.name = AccountManager.Instance.playerID;
-
-        _localPlayerObject.GetComponent<PlayerController>().F_UpdateNickName();
+        PhotonNetwork.LocalPlayer.NickName = AccountManager.Instance.playerID;
     }
 
     // 포톤 마스터 서버 콜백
@@ -104,6 +105,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         // 유저 입장했을때
         Debug.Log("Photon : OnPlayerEnteredRoom newPlayer : " + newPlayer.UserId);
     }
+
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         // 유저 퇴장했을때

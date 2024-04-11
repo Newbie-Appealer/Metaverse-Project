@@ -1,4 +1,6 @@
 using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public delegate void PlayControllerDelegate();
     public PlayControllerDelegate playerController;
+
 
     [Header("=== Movement ===")]
     private Animator _man_Animator;
@@ -38,32 +41,43 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         F_InitController();
-        _jump_Gauge = UIManager.Instance.F_GetJumpGauge();
     }
+
     public void F_InitController()
     {
         _pv = GetComponent<PhotonView>();
         _rb = GetComponent<Rigidbody>();
         _man_Animator = GetComponent<Animator>();
+        _jump_Gauge = UIManager.Instance.F_GetJumpGauge();
+
+        PhotonNetwork.LocalPlayer.NickName = AccountManager.Instance.playerID;
 
         if (_pv.IsMine)
         {
             obj_Cam_First.SetActive(false);
             obj_Cam_Quarter.SetActive(true);
-            this.gameObject.name += "(LocalPlayer)";
+            this.gameObject.name += " - ( LOCAL )";
+            this.transform.SetParent(GameManager.Instance._players);
             RankingManager.Instance.F_AddUser(this.gameObject);
         }
         else
         {
             obj_Cam_First.SetActive(false);
             obj_Cam_Quarter.SetActive(false);
-            this.gameObject.name += "(OtherPlayer)";
+            this.gameObject.name += " - ( OTHER )";
+            this.transform.SetParent(GameManager.Instance._players);
             RankingManager.Instance.F_AddUser(this.gameObject);
         }
+        StartCoroutine(C_SyncDelay());
 
         F_InitDelegate();
     }
-
+    private void Update()
+    {
+        if(_pv.IsMine) 
+            playerController();
+    }
+    #region 움직임 함수
     public void F_InitDelegate()
     {
             playerController += F_PlayerHorizonRotate;
@@ -165,17 +179,18 @@ public class PlayerController : MonoBehaviour
         _rotationY = Mathf.Clamp(_rotationY, 80f, 130f);
         obj_Cam_Quarter.transform.localEulerAngles = new Vector3(_rotationY, 0, 0);
     }
-    
-    
-    private void Update()
-    {
-        if(_pv.IsMine) 
-            playerController();
-    }
+    #endregion
 
-    public void F_UpdateNickName()
+    IEnumerator C_SyncDelay()
     {
-        _nickname = AccountManager.Instance.playerID;
-        _nicknameText.text = _nickname;
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < GameManager.Instance._players.childCount; i++)
+        {
+            Transform player = GameManager.Instance._players.GetChild(i);
+            string name = player.GetComponent<PhotonView>().Owner.NickName;
+            player.GetComponent<PlayerController>()._nicknameText.text = name;
+            player.gameObject.name = name;
+        }
     }
 }

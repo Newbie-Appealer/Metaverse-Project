@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public Transform _players;
     protected override void InitManager()
     {
         //F_SetCursor(false);
