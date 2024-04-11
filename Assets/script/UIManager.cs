@@ -19,6 +19,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("=== Player ===")]
     [SerializeField] private Image _player_JumpGauge;
+    [SerializeField] private TextMeshProUGUI _playerNickName;
     protected override void InitManager()
     {
         _style = new GUIStyle();
@@ -41,23 +42,29 @@ public class UIManager : Singleton<UIManager>
         GUI.Label(_rect, _text, _style);
     }
 
-    //로그인 버튼 
-    public void F_LoginBtn()
+    //로그인 UI On/Off
+    public void F_OnLogin(bool v_state)
     {
-        _login_Panel.SetActive(false);
+        _login_Panel.SetActive(v_state);
     }
 
     public Image F_GetJumpGauge()
     {
         return _player_JumpGauge;
     }
+
+    // 로딩 UI On/Off
     public void F_OnLoding(bool v_state)
     {
         _loding_panel.SetActive(v_state);
 
-        if(!v_state)
+        if(v_state)
         {
-            // 로딩 화면이 꺼질때 동작
+            // 로딩 화면이 켜질때 동작 ( 로딩 중 )
+        }
+        else
+        {
+            // 로딩 화면이 꺼질때 동작 ( 로딩 완료 후 )
         }
     }
 }

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject obj_Cam_First, obj_Cam_Quarter;
     [SerializeField] private GameObject obj_Rotate_Horizontal;
     [SerializeField] private GameObject obj_Body;
+
+
+    [Header("=== nickname ===")]
+    [SerializeField] private TextMeshProUGUI _nicknameText;
+    [SerializeField] private string _nickname;
 
     private PhotonView _pv;
 
@@ -165,5 +171,11 @@ public class PlayerController : MonoBehaviour
     {
         if(_pv.IsMine) 
             playerController();
+    }
+
+    public void F_UpdateNickName()
+    {
+        _nickname = AccountManager.Instance.playerID;
+        _nicknameText.text = _nickname;
     }
 }

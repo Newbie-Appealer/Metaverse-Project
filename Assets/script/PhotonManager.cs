@@ -26,7 +26,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             }
         }
 
-        F_InitPhotonServer();
+        AccountManager.Instance.onJoinServer += F_InitPhotonServer;
     }
 
     private void F_InitPhotonServer()
@@ -36,11 +36,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
             Debug.Log("ConnectUsingSettings");
         }
+
+        // 서버 접속 실패했을때 동작 추가해야할듯?
     }
 
     private void F_CreatePlayer()
     {
         _localPlayerObject = PhotonNetwork.Instantiate(_PhotonPrefabs[0].name, _spawnPoint.position, Quaternion.identity);
+        _localPlayerObject.name = AccountManager.Instance.playerID;
+
+        _localPlayerObject.GetComponent<PlayerController>().F_UpdateNickName();
     }
 
     // 포톤 마스터 서버 콜백
