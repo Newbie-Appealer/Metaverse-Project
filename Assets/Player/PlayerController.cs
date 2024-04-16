@@ -14,9 +14,10 @@ public class PlayerController : MonoBehaviour
     [Header("=== Movement ===")]
     private Animator _man_Animator;
     private Rigidbody _rb;
-    private bool _isGrounded = true;
-    private float _moveSpeed = 5f;
     private Image _jump_Gauge;
+    private bool _isGrounded = true;
+    private bool _isCrashed = false;
+    private float _moveSpeed = 5f;
     [SerializeField] private float _jumpSpeed = 0f;
     
     
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject obj_Cam_First, obj_Cam_Quarter;
     [SerializeField] private GameObject obj_Rotate_Horizontal;
     [SerializeField] private GameObject obj_Body;
+    [SerializeField] private BoxCollider col_CheckCrash;
 
 
     [Header("=== nickname ===")]
@@ -131,10 +133,12 @@ public class PlayerController : MonoBehaviour
                 _man_Animator.SetBool("Run", false);
                 _man_Animator.SetBool("Walk", true);
                 _moveSpeed = 5f;
-            } 
-
+            }
+            if (!_isCrashed)
+            {
             _moveVector = (transform.right * _input_x + transform.forward * _input_z).normalized;
             _rb.MovePosition(transform.position + _moveVector * _moveSpeed * Time.deltaTime);
+            }
             _man_Animator.SetBool("Walk", true);
         }
         else
@@ -152,14 +156,17 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            _jump_Gauge.fillAmount =  _jumpSpeed / 14f;
-            _jumpSpeed += Time.deltaTime * 7f;
-            if (_jumpSpeed > 14f)
-                _jumpSpeed = 14f;
+            _jump_Gauge.fillAmount =  _jumpSpeed / 8f;
+            _jumpSpeed += Time.deltaTime * 16f;
+            if (_jumpSpeed > 8f)
+                _jumpSpeed = 8f;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-        _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
+         if (_jumpSpeed < 5f) 
+            _rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+         else
+            _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
         _man_Animator.SetTrigger("Jump");
         _jumpSpeed = 0f;
         _jump_Gauge.fillAmount = 0f;
@@ -192,5 +199,16 @@ public class PlayerController : MonoBehaviour
             player.GetComponent<PlayerController>()._nicknameText.text = name;
             player.gameObject.name = name;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        _isCrashed = true;
+        _rb.velocity = Vector3.zero;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        _isCrashed = false;
     }
 }
