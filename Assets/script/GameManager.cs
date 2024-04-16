@@ -7,9 +7,7 @@ public class GameManager : Singleton<GameManager>
     public Transform _players;
     protected override void InitManager()
     {
-        //F_SetCursor(false);
     }
-
     public void F_SetCursor(bool v_mode)
     {
         Cursor.visible = false;
@@ -19,4 +17,5 @@ public class GameManager : Singleton<GameManager>
         else
             Cursor.lockState = CursorLockMode.Locked;
     }
+
 }
