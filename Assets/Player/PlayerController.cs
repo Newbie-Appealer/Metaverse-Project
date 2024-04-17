@@ -183,8 +183,8 @@ public class PlayerController : MonoBehaviour
     {
         float _mouseY = Input.GetAxisRaw("Mouse Y");
         _rotationY -= _mouseY * _mouseSensitivity * Time.deltaTime;
-        _rotationY = Mathf.Clamp(_rotationY, 80f, 130f);
-        obj_Cam_Quarter.transform.localEulerAngles = new Vector3(_rotationY, 0, 0);
+        _rotationY = Mathf.Clamp(_rotationY, -150f, -30f);
+        obj_Cam_Quarter.transform.parent.transform.localEulerAngles = new Vector3(_rotationY, 0, 0);
     }
     #endregion
 
