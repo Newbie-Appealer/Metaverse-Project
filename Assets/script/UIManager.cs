@@ -13,6 +13,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("=== Loading ===")]
     [SerializeField] private GameObject _loading_panel;
+    [SerializeField] private GameObject _register_panel;
     [SerializeField] private TextMeshProUGUI _loading_Text;
 
     [Header("=== Login ===")]
@@ -46,6 +47,12 @@ public class UIManager : Singleton<UIManager>
     public void F_OnLogin(bool v_state)
     {
         _login_Panel.SetActive(v_state);
+    }
+    
+    //회원가입 UI On/OOff
+    public void F_OnRegister(bool v_state)
+    {
+        _register_panel.SetActive(v_state);
     }
 
     public Image F_GetJumpGauge()

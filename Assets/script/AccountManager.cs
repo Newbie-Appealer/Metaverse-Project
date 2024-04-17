@@ -1,4 +1,5 @@
 using Photon.Pun.Demo.PunBasics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -93,43 +94,58 @@ public class AccountManager : Singleton<AccountManager>
     {
         string id = _register_inputField_ID.text;
         string pw = _register_inputField_PW.text;
-        string confirm = _register_inputField_Comfirm.text;
+        string comfirm = _register_inputField_Comfirm.text;
 
-        F_InitRegisterInputField();
+        F_InitRegisterInputField();             // input Field 초기화
 
-        if (!F_CheckRegister(id, pw, confirm))
+        if (!F_CheckRegister(id, pw, comfirm))  // 만들수있는 아이디인지 확인
             return;
+
+        if(F_RegisterAccount(id,pw))            // 아이디 만들기 시도  ( insert )
+        {
+            // 1. 회원가입 성공 팝업
+        }
+    }
+    
+    /// <summary> 회원가입 Insert 함수 </summary>
+    private bool F_RegisterAccount(string v_id, string v_pw)
+    {
+        string query = string.Format("INSERT INTO {0}(ID,PW) VALUES('{1}','{2}')"
+            , _accountTable, v_id, v_pw);
+        if(DBConnector.Instance.F_Insert(query))
+        {
+            Debug.Log("등록 성공");
+            return true;
+        }
+        return false;
     }
 
+    /// <summary> 아이디를 만들수있는지 확인하는 함수</summary>
     private bool F_CheckRegister(string v_id, string v_pw, string v_comfirm)
     {
-        if (v_id.Length < 1 || 15 < v_id.Length)
+        if(v_id.Length == 0 || v_id.Length > 15)
         {
-            if (v_id.Length == 0)
-                Debug.Log("ID Empty");
-            else
-                Debug.Log("ID Length Error ( 1 ~ 15 )");
-            return false;
-        }
-        if (v_pw.Length < 4 || 25 < v_pw.Length)
-        {
-            if (v_pw.Length == 0 || v_pw.Length == 0)
-                Debug.Log("PW Empty");
-            else
-                Debug.Log("PW Length Error ( 4 ~ 25 )");
-            return false;
-        }
-        if (v_pw != v_comfirm)
-        {
-            Debug.Log("Password Error");
-            return false;
-        }
-        if (F_SearchAccount(v_id))
-        {
-            Debug.Log("ID already exists");
+            Debug.Log("아이디 비어있음 or 너무 김");
             return false;
         }
 
+        if(v_pw.Length == 0 || v_pw.Length > 20)
+        {
+            Debug.Log("비밀번호 비어있음 or 너무 김");
+            return false;
+        }
+
+        if(v_pw != v_comfirm)
+        {
+            Debug.Log("비밀번호 다름");
+            return false;
+        }
+
+        if(F_SearchID(v_id))
+        {
+            Debug.Log("아이디가 이미 존재함");
+            return false;
+        }    
         return true;
     }
 
@@ -141,22 +157,26 @@ public class AccountManager : Singleton<AccountManager>
     }
     #endregion
 
-    private bool F_SearchAccount(string v_id)
+    /// <summary> 아이디가 존재하는지 확인하는 함수</summary>
+    private bool F_SearchID(string v_id)
     {
         string query = string.Format("SELECT * FROM {0} WHERE ID = '{1}'",
-    _accountTable, v_id);
+            _accountTable, v_id);
 
         DataSet data = DBConnector.Instance.F_Select(query, _accountTable);
 
         if (data == null)
             return false;
 
-        // 데이터가 있으면 true 리턴
-        foreach(DataRow row in data.Tables[0].Rows) 
-        {
+        foreach (DataRow row in data.Tables[0].Rows)
             return true;
-        }
 
         return false;
     }
+
+
+    // #TODO:회원가입UI
+    // 1. 로그인창에서 회원가입 누르면 회원가입 UI ON / 로그인 UI OFF
+    // 2. 회원가입창에서 EXIT 누르면 회원가입 UI OFF / 로그인 UI ON
+    // 3. 로그인/회원가입 팝업 만들기
 }
