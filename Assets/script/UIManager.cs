@@ -11,8 +11,9 @@ public class UIManager : Singleton<UIManager>
     private Rect _rect;
     private GUIStyle _style;
 
-    [Header("=== Loding ===")]
-    [SerializeField] private GameObject _loding_panel;
+    [Header("=== Loading ===")]
+    [SerializeField] private GameObject _loading_panel;
+    [SerializeField] private TextMeshProUGUI _loading_Text;
 
     [Header("=== Login ===")]
     [SerializeField] private GameObject _login_Panel;
@@ -53,17 +54,29 @@ public class UIManager : Singleton<UIManager>
     }
 
     // 로딩 UI On/Off
-    public void F_OnLoding(bool v_state)
+    public void F_OnLoading(bool v_state)
     {
-        _loding_panel.SetActive(v_state);
+        _loading_panel.SetActive(v_state);
 
         if(v_state)
         {
             // 로딩 화면이 켜질때 동작 ( 로딩 중 )
+            StartCoroutine(C_LoadingText());
         }
         else
         {
             // 로딩 화면이 꺼질때 동작 ( 로딩 완료 후 )
+            StopCoroutine(C_LoadingText());
+        }
+    }
+
+    private IEnumerator C_LoadingText()
+    {
+         _loading_Text.text = "Loading";
+        while(_loading_panel.activeSelf)
+        {
+            _loading_Text.text += " .";
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }
