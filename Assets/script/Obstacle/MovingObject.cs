@@ -34,7 +34,7 @@ public class MovingObject : MonoBehaviour
         while (Vector3.Distance(transform.localPosition, _targetPosition) > 0.1f)
         {
             yield return new WaitForSeconds(Time.deltaTime);
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, _targetPosition, 0.05f);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, _targetPosition, 0.04f);
         }
 
         StartCoroutine(F_ReturnObject());       // µ¹¾Æ°¨
@@ -46,7 +46,7 @@ public class MovingObject : MonoBehaviour
         while (Vector3.Distance(transform.localPosition, _beforePosition) > 0.1f)
         {
             yield return new WaitForSeconds(Time.deltaTime);
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, _beforePosition, 0.05f);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, _beforePosition, 0.04f);
         }
 
         _isMoving = false;
