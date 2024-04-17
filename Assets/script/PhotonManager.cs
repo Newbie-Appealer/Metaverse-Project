@@ -77,7 +77,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         F_CreatePlayer();
 
         GameManager.Instance.F_SetCursor(false); // 커서 지우기
-        UIManager.Instance.F_OnLoding(false);       // 캐릭터 생성 완료 -> 로딩 완료
+        UIManager.Instance.F_OnLoading(false);       // 캐릭터 생성 완료 -> 로딩 완료
     }
 
 

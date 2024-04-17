@@ -47,7 +47,7 @@ public class AccountManager : Singleton<AccountManager>
         if (F_TryLogin(id, pw))
         {
             // 로그인 성공했을때
-            UIManager.Instance.F_OnLoding(true);        // 로딩 시작 ( 서버 연결 )
+            UIManager.Instance.F_OnLoading(true);        // 로딩 시작 ( 서버 연결 )
             UIManager.Instance.F_OnLogin(false);        // 로그인 완료 -> 로그인 UI Off
             onJoinServer();                             // 서버 접속 시도
         }
