@@ -15,8 +15,14 @@ public class AccountManager : Singleton<AccountManager>
     [SerializeField] TMP_InputField _login_inputField_ID;
     [SerializeField] TMP_InputField _login_inputField_PW;
 
+    [Header("=== Register Field ===")]
+    [SerializeField] TMP_InputField _register_inputField_ID;
+    [SerializeField] TMP_InputField _register_inputField_PW;
+    [SerializeField] TMP_InputField _register_inputField_Comfirm;
+
     [Header("=== Buttons ===")]
-    [SerializeField] Button _loginButton;
+    [SerializeField] Button _loginButton;           // 로그인 버튼
+    [SerializeField] Button _registerButton;        // 회원가입 버튼
 
     [Header("=== Player Information ===")]
     [SerializeField] private string _playerID = string.Empty;
@@ -29,8 +35,10 @@ public class AccountManager : Singleton<AccountManager>
     protected override void InitManager() 
     {
         _loginButton.onClick.AddListener(F_Login);
+        _registerButton.onClick.AddListener(F_Register);
     }
 
+    #region Login
     private void F_Login()
     {
         string id = _login_inputField_ID.text;
@@ -77,5 +85,78 @@ public class AccountManager : Singleton<AccountManager>
     {
         _login_inputField_ID.text = "";
         _login_inputField_PW.text = "";
+    }
+    #endregion
+
+    #region register
+    private void F_Register()
+    {
+        string id = _register_inputField_ID.text;
+        string pw = _register_inputField_PW.text;
+        string confirm = _register_inputField_Comfirm.text;
+
+        F_InitRegisterInputField();
+
+        if (!F_CheckRegister(id, pw, confirm))
+            return;
+    }
+
+    private bool F_CheckRegister(string v_id, string v_pw, string v_comfirm)
+    {
+        if (v_id.Length < 1 || 15 < v_id.Length)
+        {
+            if (v_id.Length == 0)
+                Debug.Log("ID Empty");
+            else
+                Debug.Log("ID Length Error ( 1 ~ 15 )");
+            return false;
+        }
+        if (v_pw.Length < 4 || 25 < v_pw.Length)
+        {
+            if (v_pw.Length == 0 || v_pw.Length == 0)
+                Debug.Log("PW Empty");
+            else
+                Debug.Log("PW Length Error ( 4 ~ 25 )");
+            return false;
+        }
+        if (v_pw != v_comfirm)
+        {
+            Debug.Log("Password Error");
+            return false;
+        }
+        if (F_SearchAccount(v_id))
+        {
+            Debug.Log("ID already exists");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void F_InitRegisterInputField()
+    {
+        _register_inputField_ID.text = "";
+        _register_inputField_PW.text = "";
+        _register_inputField_Comfirm.text = "";
+    }
+    #endregion
+
+    private bool F_SearchAccount(string v_id)
+    {
+        string query = string.Format("SELECT * FROM {0} WHERE ID = '{1}'",
+    _accountTable, v_id);
+
+        DataSet data = DBConnector.Instance.F_Select(query, _accountTable);
+
+        if (data == null)
+            return false;
+
+        // 데이터가 있으면 true 리턴
+        foreach(DataRow row in data.Tables[0].Rows) 
+        {
+            return true;
+        }
+
+        return false;
     }
 }
