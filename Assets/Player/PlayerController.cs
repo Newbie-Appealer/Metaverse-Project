@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private Image _jump_Gauge;
     private bool _isGrounded = true;
     private bool _isCrashed = false;
-    private float _moveSpeed = 5f;
+    [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpSpeed = 0f;
     
     
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator C_SyncDelay()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         for (int i = 0; i < GameManager.Instance._players.childCount; i++)
         {
