@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         float _input_x = Input.GetAxis("Horizontal");
         float _input_z = Input.GetAxis("Vertical");
         Vector3 _moveVector;
-         _isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.25f);
+         //_isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.25f);
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             if (_input_x > 0)
@@ -200,17 +200,6 @@ public class PlayerController : MonoBehaviour
             player.gameObject.name = name;
         }
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    _isCrashed = true;
-    //    _rb.velocity = Vector3.zero;
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    _isCrashed = false;
-    //}
 
     public Rigidbody F_GetRB()
     {
