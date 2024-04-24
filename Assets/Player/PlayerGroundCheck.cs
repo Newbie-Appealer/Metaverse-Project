@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerGroundCheck : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        GameManager.Instance._players.GetChild(0).GetComponent<PlayerController>()._isGrounded = true;
+        GameManager.Instance._player.GetComponent<PlayerController>()._isGrounded = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GameManager.Instance._players.GetChild(0).GetComponent<PlayerController>()._isGrounded = false;
+        GameManager.Instance._player.GetComponent<PlayerController>()._isGrounded = false;
     }
 }

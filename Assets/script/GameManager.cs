@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public Transform _players;
+    public GameObject _player;
     protected override void InitManager()
     {
     }

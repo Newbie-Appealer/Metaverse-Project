@@ -47,6 +47,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         _localPlayerObject = PhotonNetwork.Instantiate(_PhotonPrefabs[0].name, _spawnPoint.position, Quaternion.identity);
         PhotonNetwork.LocalPlayer.NickName = AccountManager.Instance.playerID;
+
+        GameManager.Instance._player = _localPlayerObject;
     }
 
     // 포톤 마스터 서버 콜백
