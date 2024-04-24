@@ -15,15 +15,20 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject _loading_panel;
     [SerializeField] private TextMeshProUGUI _loading_Text;
 
-
     [Header("=== Register ===")]
     [SerializeField] private GameObject _register_panel;
 
     [Header("=== Login ===")]
     [SerializeField] private GameObject _login_Panel;
 
+    [Header("=== Popup ===")]
+    [SerializeField] private GameObject _popup;
+    [SerializeField] private TextMeshProUGUI _popupTEXT;
+    [SerializeField] private Button _popupButton;
+
     [Header("=== Player ===")]
     [SerializeField] private Image _player_JumpGauge;
+
     protected override void InitManager()
     {
         _style = new GUIStyle();
@@ -31,6 +36,8 @@ public class UIManager : Singleton<UIManager>
         _style.normal.textColor = Color.white;
 
         _rect = new Rect(20, 20, Screen.width, Screen.height);
+
+        _popupButton.onClick.AddListener(() => F_OnPopup(false));
     }
     private void Update()
     {
@@ -56,6 +63,12 @@ public class UIManager : Singleton<UIManager>
     public void F_OnRegister(bool v_state)
     {
         _register_panel.SetActive(v_state);
+    }
+
+    public void F_OnPopup(bool v_state, string v_text = "")
+    {
+        _popup.gameObject.SetActive(v_state);
+        _popupTEXT.text = v_text;
     }
 
     public Image F_GetJumpGauge()
