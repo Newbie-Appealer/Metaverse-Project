@@ -24,6 +24,8 @@ public class AccountManager : Singleton<AccountManager>
     [Header("=== Buttons ===")]
     [SerializeField] Button _loginButton;           // 로그인 버튼
     [SerializeField] Button _registerButton;        // 회원가입 버튼
+    [SerializeField] Button _exitButton_login;        // 회원가입 버튼
+    [SerializeField] Button _exitButton_register;        // 회원가입 버튼
 
     [Header("=== Player Information ===")]
     [SerializeField] private string _playerID = string.Empty;
@@ -36,7 +38,7 @@ public class AccountManager : Singleton<AccountManager>
     protected override void InitManager() 
     {
         _loginButton.onClick.AddListener(F_Login);
-        _registerButton.onClick.AddListener(F_Register);
+        //_registerButton.onClick.AddListener(F_Register);
     }
 
     #region Login
