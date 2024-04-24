@@ -171,6 +171,7 @@ public class PlayerController : MonoBehaviour
         _jumpSpeed = 0f;
         _jump_Gauge.fillAmount = 0f;
         }
+        _isGrounded = false;
     }
 
     private void F_PlayerHorizonRotate()
