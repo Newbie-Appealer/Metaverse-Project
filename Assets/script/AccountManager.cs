@@ -13,19 +13,20 @@ public class AccountManager : Singleton<AccountManager>
     public LoginDelegate onJoinServer;
 
     [Header("=== Login Field ===")]
-    [SerializeField] TMP_InputField _login_inputField_ID;
-    [SerializeField] TMP_InputField _login_inputField_PW;
+    [SerializeField] private TMP_InputField _login_inputField_ID;
+    [SerializeField] private TMP_InputField _login_inputField_PW;
 
     [Header("=== Register Field ===")]
-    [SerializeField] TMP_InputField _register_inputField_ID;
-    [SerializeField] TMP_InputField _register_inputField_PW;
-    [SerializeField] TMP_InputField _register_inputField_Comfirm;
+    [SerializeField] private TMP_InputField _register_inputField_ID;
+    [SerializeField] private TMP_InputField _register_inputField_PW;
+    [SerializeField] private TMP_InputField _register_inputField_Comfirm;
 
     [Header("=== Buttons ===")]
-    [SerializeField] Button _loginButton;           // 로그인 버튼
-    [SerializeField] Button _registerButton;        // 회원가입 버튼
-    [SerializeField] Button _exitButton_login;        // 회원가입 버튼
-    [SerializeField] Button _exitButton_register;        // 회원가입 버튼
+    [SerializeField] private Button _loginButton;           
+    [SerializeField] private Button _onRegisterButton;         
+    [SerializeField] private Button _exitButton_login;       
+    [SerializeField] private Button _registerButton;        
+    [SerializeField] private Button _exitButton_register;       
 
     [Header("=== Player Information ===")]
     [SerializeField] private string _playerID = string.Empty;
@@ -37,9 +38,24 @@ public class AccountManager : Singleton<AccountManager>
     private string _accountTable = "account";
     protected override void InitManager() 
     {
+        // 로그인 UI 버튼
         _loginButton.onClick.AddListener(F_Login);
-        //_registerButton.onClick.AddListener(F_Register);
+        _onRegisterButton.onClick.AddListener(() => F_OnRegister(true));
+        _exitButton_login.onClick.AddListener(() => Application.Quit());
+
+        // 회원가입 UI 버튼
+        _registerButton.onClick.AddListener(F_Register);
+        _exitButton_register.onClick.AddListener(() => F_OnRegister(false));
     }
+
+    #region Cavans
+    private void F_OnRegister(bool v_bValue)
+    {
+        F_initLoginInputField();
+        F_InitRegisterInputField();
+        UIManager.Instance.F_OnRegister(v_bValue);
+    }
+    #endregion
 
     #region Login
     private void F_Login()
@@ -108,7 +124,7 @@ public class AccountManager : Singleton<AccountManager>
             // 1. 회원가입 성공 팝업
         }
     }
-    
+
     /// <summary> 회원가입 Insert 함수 </summary>
     private bool F_RegisterAccount(string v_id, string v_pw)
     {
@@ -175,10 +191,4 @@ public class AccountManager : Singleton<AccountManager>
 
         return false;
     }
-
-
-    // #TODO:회원가입UI
-    // 1. 로그인창에서 회원가입 누르면 회원가입 UI ON / 로그인 UI OFF
-    // 2. 회원가입창에서 EXIT 누르면 회원가입 UI OFF / 로그인 UI ON
-    // 3. 로그인/회원가입 팝업 만들기
 }
