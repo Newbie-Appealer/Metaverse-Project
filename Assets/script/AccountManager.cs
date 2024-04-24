@@ -97,6 +97,7 @@ public class AccountManager : Singleton<AccountManager>
                 return true;
             }
         }
+        UIManager.Instance.F_OnPopup(true, "Login Failed");
         return false;
     }
 
@@ -121,7 +122,8 @@ public class AccountManager : Singleton<AccountManager>
 
         if(F_RegisterAccount(id,pw))            // 아이디 만들기 시도  ( insert )
         {
-            // 1. 회원가입 성공 팝업
+            UIManager.Instance.F_OnRegister(false); // 회원가입 UI OFF
+            UIManager.Instance.F_OnPopup(true, "Register Successfully");
         }
     }
 
@@ -143,25 +145,25 @@ public class AccountManager : Singleton<AccountManager>
     {
         if(v_id.Length == 0 || v_id.Length > 15)
         {
-            Debug.Log("아이디 비어있음 or 너무 김");
+            UIManager.Instance.F_OnPopup(true, "Fail");
             return false;
         }
 
         if(v_pw.Length == 0 || v_pw.Length > 20)
         {
-            Debug.Log("비밀번호 비어있음 or 너무 김");
+            UIManager.Instance.F_OnPopup(true, "Fail");
             return false;
         }
 
         if(v_pw != v_comfirm)
         {
-            Debug.Log("비밀번호 다름");
+            UIManager.Instance.F_OnPopup(true, "Fail");
             return false;
         }
 
         if(F_SearchID(v_id))
         {
-            Debug.Log("아이디가 이미 존재함");
+            UIManager.Instance.F_OnPopup(true, "Fail");
             return false;
         }    
         return true;
