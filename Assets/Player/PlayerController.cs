@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject obj_Cam_First, obj_Cam_Quarter;
     [SerializeField] private GameObject obj_Rotate_Horizontal;
     [SerializeField] private GameObject obj_Body;
-    [SerializeField] private BoxCollider col_CheckCrash;
 
 
     [Header("=== nickname ===")]
@@ -40,6 +39,9 @@ public class PlayerController : MonoBehaviour
 
     private PhotonView _pv;
 
+
+    [Header("Collisions")]
+    [SerializeField] private OnGround _onGround;
     private void Start()
     {
         F_InitController();
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
     public void F_InitController()
     {
+        _onGround._playerController = this;
         _pv = GetComponent<PhotonView>();
         _rb = GetComponent<Rigidbody>();
         _man_Animator = GetComponent<Animator>();
@@ -161,17 +164,19 @@ public class PlayerController : MonoBehaviour
             if (_jumpSpeed > 8f)
                 _jumpSpeed = 8f;
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        else if (Input.GetKeyUp(KeyCode.Space))
         {
-         if (_jumpSpeed < 5f) 
-            _rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
-         else
-            _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
-        _man_Animator.SetTrigger("Jump");
-        _jumpSpeed = 0f;
-        _jump_Gauge.fillAmount = 0f;
+            _isGrounded = false;
+            if (_jumpSpeed < 5f) 
+                _rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            else
+                _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
+
+            _man_Animator.SetTrigger("Jump");
+            _jumpSpeed = 0f;
+            _jump_Gauge.fillAmount = 0f;
+
         }
-        _isGrounded = false;
     }
 
     private void F_PlayerHorizonRotate()
