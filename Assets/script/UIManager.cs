@@ -13,8 +13,11 @@ public class UIManager : Singleton<UIManager>
 
     [Header("=== Loading ===")]
     [SerializeField] private GameObject _loading_panel;
-    [SerializeField] private GameObject _register_panel;
     [SerializeField] private TextMeshProUGUI _loading_Text;
+
+
+    [Header("=== Register ===")]
+    [SerializeField] private GameObject _register_panel;
 
     [Header("=== Login ===")]
     [SerializeField] private GameObject _login_Panel;
