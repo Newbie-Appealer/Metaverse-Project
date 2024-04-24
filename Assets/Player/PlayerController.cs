@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour
     private Animator _man_Animator;
     private Rigidbody _rb;
     private Image _jump_Gauge;
-    private bool _isGrounded = true;
-    private bool _isCrashed = false;
+    public bool _isGrounded = true;
+    public bool _isCrashed = false;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpSpeed = 0f;
     
@@ -201,14 +201,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        _isCrashed = true;
-        _rb.velocity = Vector3.zero;
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    _isCrashed = true;
+    //    _rb.velocity = Vector3.zero;
+    //}
 
-    private void OnTriggerExit(Collider other)
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    _isCrashed = false;
+    //}
+
+    public Rigidbody F_GetRB()
     {
-        _isCrashed = false;
+        return _rb;
     }
 }
