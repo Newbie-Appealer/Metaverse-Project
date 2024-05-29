@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nicknameText;
     [SerializeField] private string _nickname;
 
-    private PhotonView _pv;
+    public PhotonView _pv;
 
 
     [Header("Collisions")]

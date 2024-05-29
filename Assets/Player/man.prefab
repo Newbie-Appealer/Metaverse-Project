@@ -119,6 +119,7 @@ MonoBehaviour:
   obj_Body: {fileID: 2374430763718696840}
   _nicknameText: {fileID: 500204283031345376}
   _nickname: 
+  _pv: {fileID: 0}
   _onGround: {fileID: 96562249876326110}
 --- !u!114 &7499155942773710503
 MonoBehaviour:

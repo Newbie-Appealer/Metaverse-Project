@@ -34,6 +34,7 @@ public class AccountManager : Singleton<AccountManager>
     [SerializeField] private int _playerUID = -1;
 
     public string playerID => _playerID;
+    public int playerUID => _playerUID;
 
     private string _accountTable = "account";
     protected override void InitManager() 
