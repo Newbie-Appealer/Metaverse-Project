@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Image _jump_Gauge;
     public bool _isGrounded = true;
     public bool _isCrashed = false;
+    public bool _jumpIncrease = true;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpSpeed = 0f;
     
@@ -95,7 +96,6 @@ public class PlayerController : MonoBehaviour
         float _input_x = Input.GetAxis("Horizontal");
         float _input_z = Input.GetAxis("Vertical");
         Vector3 _moveVector;
-         //_isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.25f);
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             if (_input_x > 0)
@@ -159,10 +159,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            _jump_Gauge.fillAmount =  _jumpSpeed / 8f;
-            _jumpSpeed += Time.deltaTime * 16f;
-            if (_jumpSpeed > 8f)
-                _jumpSpeed = 8f;
+            F_JumpGaugeCharge();
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -175,7 +172,25 @@ public class PlayerController : MonoBehaviour
             _man_Animator.SetTrigger("Jump");
             _jumpSpeed = 0f;
             _jump_Gauge.fillAmount = 0f;
+        }
+    }
 
+    private void F_JumpGaugeCharge()
+    {
+        if (_jumpIncrease)
+        {
+            _jumpSpeed += Time.deltaTime * 12f;
+            _jump_Gauge.fillAmount = _jumpSpeed / 12f;
+            if (_jumpSpeed >= 12f)
+                _jumpIncrease = false;
+        }
+
+        else if (!_jumpIncrease)
+        {
+            _jumpSpeed -= Time.deltaTime * 12f;
+            _jump_Gauge.fillAmount = _jumpSpeed / 12f;
+            if (_jumpSpeed < 0.01f)
+                _jumpIncrease = true;
         }
     }
 
