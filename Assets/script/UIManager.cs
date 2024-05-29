@@ -59,10 +59,11 @@ public class UIManager : Singleton<UIManager>
         _login_Panel.SetActive(v_state);
     }
     
-    //회원가입 UI On/OOff
+    //회원가입 UI On/Off
     public void F_OnRegister(bool v_state)
     {
         _register_panel.SetActive(v_state);
+        _login_Panel.SetActive(!v_state);
     }
 
     public void F_OnPopup(bool v_state, string v_text = "")
