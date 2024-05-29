@@ -110,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isGrounded: 1
   _isCrashed: 0
+  _jumpIncrease: 0
   _moveSpeed: 5
   _jumpSpeed: 0
   obj_Cam_First: {fileID: 3738339002912586576}
