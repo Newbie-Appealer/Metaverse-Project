@@ -9,17 +9,23 @@ public class TotalRanking : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        int uid = AccountManager.Instance.playerUID;
-        int time = RankingManager.Instance._localTime;
-
-        string query_insert = string.Format("INSERT INTO {0}(UID,TimeSecond) VALUES('{1}','{2}')",
-            rankingTable, uid, time);
-
-        if (!F_SearchID(uid))
+        if (other.gameObject.CompareTag("Player"))
         {
-            if (DBConnector.Instance.F_Insert(query_insert))
+            if(other.GetComponent<PlayerController>()._pv.IsMine)
             {
-                RankingManager.Instance.F_AddTotalRanking();
+                int uid = AccountManager.Instance.playerUID;
+                int time = RankingManager.Instance._localTime;
+
+                string query_insert = string.Format("INSERT INTO {0}(UID,TimeSecond) VALUES('{1}','{2}')",
+                    rankingTable, uid, time);
+
+                if (!F_SearchID(uid))
+                {
+                    if (DBConnector.Instance.F_Insert(query_insert))
+                    {
+                        RankingManager.Instance.F_AddTotalRanking();
+                    }
+                }
             }
         }
     }
