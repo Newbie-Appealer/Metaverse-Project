@@ -56,7 +56,7 @@ public class UIManager : Singleton<UIManager>
     //로그인 UI On/Off
     public void F_OnLogin(bool v_state)
     {
-        _login_Panel.SetActive(v_state);
+        _login_Panel.transform.parent.gameObject.SetActive(v_state);
     }
     
     //회원가입 UI On/Off
