@@ -42,6 +42,7 @@ MonoBehaviour:
   - F_SyncNickName
   - F_UpdateRanking
   - F_AddRanking
+  - F_AddTotalRanking
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

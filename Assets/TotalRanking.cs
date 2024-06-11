@@ -15,8 +15,7 @@ public class TotalRanking : MonoBehaviourPun
             {
                 int uid = AccountManager.Instance.playerUID;
                 int time = RankingManager.Instance._localTime;
-                F_AddRanking(uid, time);
-                RankingManager.Instance._pv.RPC("F_AddRanking", RpcTarget.Others, uid, time);
+                RankingManager.Instance._pv.RPC("F_AddRanking", RpcTarget.All, uid, time);
             }
         }
     }

@@ -102,10 +102,10 @@ public class RankingManager : Singleton<RankingManager>
         }
     }
 
+    [PunRPC]
     public void F_AddTotalRanking()
     {
-        F_UpdateRanking();
-        _pv.RPC("F_UpdateRanking", RpcTarget.Others);
+        _pv.RPC("F_UpdateRanking", RpcTarget.All);
     }
 
     [PunRPC]
