@@ -13,6 +13,8 @@ public class TotalRanking : MonoBehaviourPun
         {
             if (other.GetComponent<PlayerController>()._pv.IsMine)
             {
+                UIManager.Instance.F_OnClear(true);
+
                 int uid = AccountManager.Instance.playerUID;
                 int time = RankingManager.Instance._localTime;
                 photonView.RPC("F_AddRanking", RpcTarget.All, uid, time);

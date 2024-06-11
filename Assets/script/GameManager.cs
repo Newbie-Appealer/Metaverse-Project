@@ -11,7 +11,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void F_SetCursor(bool v_mode)
     {
-        Cursor.visible = false;
+        Cursor.visible = v_mode;
 
         if (v_mode)
             Cursor.lockState = CursorLockMode.None;
