@@ -29,6 +29,9 @@ public class UIManager : Singleton<UIManager>
     [Header("=== Player ===")]
     [SerializeField] private Image _player_JumpGauge;
 
+    [Header("Clear")]
+    [SerializeField] private GameObject _clearUI;
+    [SerializeField] private Button _clearConfirmBtn;
     protected override void InitManager()
     {
         _style = new GUIStyle();
@@ -38,6 +41,8 @@ public class UIManager : Singleton<UIManager>
         _rect = new Rect(20, 20, Screen.width, Screen.height);
 
         _popupButton.onClick.AddListener(() => F_OnPopup(false));
+
+        _clearConfirmBtn.onClick.AddListener(() => F_ClearConfirm());
     }
     private void Update()
     {
@@ -102,5 +107,17 @@ public class UIManager : Singleton<UIManager>
             _loading_Text.text += " .";
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    public void F_OnClear(bool state)
+    {
+        _clearUI.SetActive(state);
+        GameManager.Instance.F_SetCursor(true);
+    }
+    public void F_ClearConfirm()
+    {
+        F_OnClear(false);
+        GameManager.Instance.F_SetCursor(false);
+        GameManager.Instance._player.transform.position = new Vector3(-15, 5, 55);
     }
 }
