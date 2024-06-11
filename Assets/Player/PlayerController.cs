@@ -1,6 +1,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using System.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("=== nickname ===")]
     [SerializeField] private TextMeshProUGUI _nicknameText;
+    [SerializeField] private Image _rankingImage;
     [SerializeField] private string _nickname;
 
     public PhotonView _pv;
@@ -223,17 +225,59 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator C_SyncDelay()
     {
+        string[] ranking123 = F_GetRank123();
+
         yield return new WaitForSeconds(0.1f);
 
         for (int i = 0; i < GameManager.Instance._players.childCount; i++)
         {
             Transform player = GameManager.Instance._players.GetChild(i);
+
             string name = player.GetComponent<PhotonView>().Owner.NickName;
-            player.GetComponent<PlayerController>()._nicknameText.text = name;
+            
+            PlayerController cont = player.GetComponent<PlayerController>();
+
+            cont._nicknameText.text = name;
+
+            cont._rankingImage.color = new Color(0,0,0,0);
+            for(int z = 0; z < ranking123.Length; z++)
+            {
+                if (ranking123[z].Equals(name))
+                {
+                    cont._rankingImage.color = new Color(1, 1, 1, 1);
+                    cont._rankingImage.sprite = RankingManager.Instance._rankImage[z];
+                    break;
+                }
+            }
+
             player.gameObject.name = name;
         }
     }
 
+    private string[] F_GetRank123()
+    {
+        string[] ret = new string[3];
+
+        string qurey = string.Format("SELECT * FROM {0} ORDER BY Rank ASC",
+            "ranking");
+
+        DataSet data = DBConnector.Instance.F_Select(qurey, "ranking");
+
+        if (data == null)
+            return ret;
+
+        int dataCount = data.Tables[0].Rows.Count;
+        for (int i = 0; i < 3; i++)
+        {
+            if(dataCount > i)
+            {
+                DataRow row = data.Tables[0].Rows[i];
+
+                ret[i] = RankingManager.Instance.F_GetNickName(row["UID"].ToString());
+            }
+        }
+        return ret;
+    }
     public Rigidbody F_GetRB()
     {
         return _rb;
