@@ -36,6 +36,10 @@ public class RankingManager : Singleton<RankingManager>
     [SerializeField] private List<TotalRankingSlot> _totalRankingSlots;           // ÀüÃ¼ ·©Å· ½½·Ô
 
     public PhotonView _pv;
+
+    [Header("Ranking Image")]
+    public Sprite[] _rankImage;
+
     protected override void InitManager()
     {
         _localTime = 0;
@@ -144,7 +148,7 @@ public class RankingManager : Singleton<RankingManager>
         }
     }
 
-    private string F_GetNickName(string v_uid)
+    public string F_GetNickName(string v_uid)
     {
         string qurey_nickName = string.Format("SELECT ID FROM account WHERE UID = '{0}'",
                 v_uid);
