@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public bool _isGrounded = true;
     public bool _isCrashed = false;
     public bool _jumpIncrease = true;
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _jumpSpeed = 0f;
     
     
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
             playerController += F_PlayerHorizonRotate;
             playerController += F_CameraVerticalMove;
             playerController += F_PlayerMove;
-
+            playerController += F_TimeGoSlow;
     }
     private void F_PlayerMove()
     {
@@ -129,13 +129,13 @@ public class PlayerController : MonoBehaviour
             {
                 _man_Animator.SetBool("Walk", false);
                 _man_Animator.SetBool("Run", true);
-                _moveSpeed = 10f;
+                _moveSpeed = 8f;
             }
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 _man_Animator.SetBool("Run", false);
                 _man_Animator.SetBool("Walk", true);
-                _moveSpeed = 5f;
+                _moveSpeed = 4f;
             }
             if (!_isCrashed)
             {
@@ -164,8 +164,8 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.Space))
         {
             _isGrounded = false;
-            if (_jumpSpeed < 5f) 
-                _rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            if (_jumpSpeed < 7f) 
+                _rb.AddForce(Vector3.up * 7f, ForceMode.Impulse);
             else
                 _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
 
@@ -206,6 +206,18 @@ public class PlayerController : MonoBehaviour
         _rotationY -= _mouseY * _mouseSensitivity * Time.deltaTime;
         _rotationY = Mathf.Clamp(_rotationY, -150f, -30f);
         obj_Cam_Quarter.transform.parent.transform.localEulerAngles = new Vector3(_rotationY, 0, 0);
+    }
+
+    private void F_TimeGoSlow()
+    {
+        if (Input.GetKey(KeyCode.T))
+        {
+            Time.timeScale = 0.33f;
+        }
+        if (Input.GetKeyUp(KeyCode.T))
+        {
+            Time.timeScale = 1f;
+        }
     }
     #endregion
 
