@@ -282,4 +282,12 @@ public class PlayerController : MonoBehaviour
     {
         return _rb;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Floor"))
+            transform.position = new Vector3(3, 5, 52);
+        else
+            return;
+    }
 }
