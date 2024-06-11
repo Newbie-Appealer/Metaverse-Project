@@ -256,7 +256,7 @@ public class PlayerController : MonoBehaviour
 
     private string[] F_GetRank123()
     {
-        string[] ret = new string[3];
+        string[] ret = { "N", "N", "N" };
 
         string qurey = string.Format("SELECT * FROM {0} ORDER BY Rank ASC",
             "ranking");

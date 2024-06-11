@@ -118,6 +118,7 @@ MonoBehaviour:
   obj_Rotate_Horizontal: {fileID: 697785503197186243}
   obj_Body: {fileID: 2374430763718696840}
   _nicknameText: {fileID: 500204283031345376}
+  _rankingImage: {fileID: 7305158421987496267}
   _nickname: 
   _pv: {fileID: 0}
   _onGround: {fileID: 96562249876326110}
