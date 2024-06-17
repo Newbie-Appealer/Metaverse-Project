@@ -3285,7 +3285,7 @@ GameObject:
   - component: {fileID: 1102707975650601361}
   - component: {fileID: 2926002842978142781}
   - component: {fileID: 6935453009522133344}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crash_Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
