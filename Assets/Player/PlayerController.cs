@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Data;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -155,6 +156,10 @@ public class PlayerController : MonoBehaviour
         {
             F_PlayerJump();
         }
+        else
+        {
+            F_PlayerJumpInit();
+        }
     }
 
     private void F_PlayerJump()
@@ -175,6 +180,13 @@ public class PlayerController : MonoBehaviour
             _jumpSpeed = 0f;
             _jump_Gauge.fillAmount = 0f;
         }
+    }
+
+    private void F_PlayerJumpInit()
+    {
+        _jumpSpeed = 0f;
+        _jump_Gauge.fillAmount = 0;
+        _jumpIncrease = true;
     }
 
     private void F_JumpGaugeCharge()
