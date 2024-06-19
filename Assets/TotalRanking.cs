@@ -51,5 +51,7 @@ public class TotalRanking : MonoBehaviourPun
                 RankingManager.Instance.F_AddTotalRanking();
             }
         }
+
+        StartCoroutine(GetComponent<PlayerController>().C_SyncDelay());
     }
 }

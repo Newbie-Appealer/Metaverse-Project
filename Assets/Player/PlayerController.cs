@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _jumpSpeed = 0f;
     
-    
-
     [Header("=== Roration ===")]
     private Vector3 _rotationX;
     private float _rotationY;
@@ -77,6 +75,7 @@ public class PlayerController : MonoBehaviour
             this.transform.SetParent(GameManager.Instance._players);
             RankingManager.Instance.F_AddUser(this.gameObject);
         }
+
         StartCoroutine(C_SyncDelay());
 
         F_InitDelegate();
@@ -235,7 +234,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    IEnumerator C_SyncDelay()
+    public IEnumerator C_SyncDelay()
     {
         string[] ranking123 = F_GetRank123();
 
