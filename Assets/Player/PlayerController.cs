@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
         {
             playerController();
             
-            if(Input.GetButtonDown(0))
+            if(Input.GetMouseButtonDown(0))
             {
                 F_AttackEffect();
                 _pv.RPC("F_Hit", RpcTarget.Others, this.transform);
