@@ -7,18 +7,19 @@ public class CrashCheck : MonoBehaviour
     [SerializeField] private PlayerController _playerCtr;
     private void OnTriggerEnter(Collider other)
     {
+        if(other.CompareTag("Player"))
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                other.GetComponent<Rigidbody>().AddForce(Vector3.forward, ForceMode.Impulse);
+            }
+
+            return;
+        }
+
         if (_playerCtr != null && !_playerCtr._isCrashed)
         {
             _playerCtr._isCrashed = true;
-        }
-
-        if(other.CompareTag("Player") && _playerCtr != null)
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-
-                other.GetComponent<Rigidbody>().AddForce(Vector3.forward, ForceMode.Impulse);
-            }
         }
     }
 
