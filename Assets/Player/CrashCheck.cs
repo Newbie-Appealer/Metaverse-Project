@@ -11,6 +11,15 @@ public class CrashCheck : MonoBehaviour
         {
             _playerCtr._isCrashed = true;
         }
+
+        if(other.CompareTag("Player") && _playerCtr != null)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+
+                other.GetComponent<Rigidbody>().AddForce(Vector3.forward, ForceMode.Impulse);
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
