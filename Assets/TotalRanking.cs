@@ -52,6 +52,8 @@ public class TotalRanking : MonoBehaviourPun
             }
         }
 
-        StartCoroutine(GetComponent<PlayerController>().C_SyncDelay());
+        StartCoroutine(GameManager.Instance._player.GetComponent<PlayerController>().C_SyncDelay());
     }
+
+
 }
