@@ -11,7 +11,7 @@ public class DBConnector : Singleton<DBConnector>
     private int _port = 3306;                   // DB 서버 포트
     private string _id = "root";                // DB 서버 아이디
     private string _pw = "0000";                // DB 서버 비밀번호
-    private string _database = "yjumetaa";       // DB 서버 데이터베이스
+    private string _database = "yjumeta";       // DB 서버 데이터베이스
     
     private MySqlConnection _connection = null;
     private MySqlConnection connection
