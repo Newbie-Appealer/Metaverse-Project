@@ -11,7 +11,7 @@ public class CrashCheck : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                other.GetComponent<Rigidbody>().AddForce(Vector3.forward, ForceMode.Impulse);
+                other.GetComponent<Rigidbody>().AddForce(Vector3.forward * 10f, ForceMode.Impulse);
             }
 
             return;
