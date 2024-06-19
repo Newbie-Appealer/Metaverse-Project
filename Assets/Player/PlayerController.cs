@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Collisions")]
     [SerializeField] private OnGround _onGround;
+
+    [SerializeField] private LayerMask targetLayer;
     private void Start()
     {
         F_InitController();
@@ -82,8 +84,16 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        if(_pv.IsMine) 
+        if(_pv.IsMine)
+        {
             playerController();
+            
+            if(Input.GetButtonDown(0))
+            {
+                F_AttackEffect();
+                _pv.RPC("F_Hit", RpcTarget.Others, this.transform);
+            }
+        }
     }
     #region 움직임 함수
     public void F_InitDelegate()
@@ -300,5 +310,25 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(3, 5, 52);
         else
             return;
+    }
+
+    private void F_AttackEffect()
+    {
+        Debug.Log("attac");
+        _rb.AddForce(Vector3.up * 3f, ForceMode.Impulse);
+        // 공격하는사람
+    }
+
+    [PunRPC]
+    public void F_Hit(Transform v_transform)
+    {
+        // 당하는사람
+        Debug.Log("booooooooooooooooooom");
+        float distance = Vector3.Distance(v_transform.position, this.transform.position);
+
+        if(distance < 3f)
+        {
+            _rb.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+        }
     }
 }
