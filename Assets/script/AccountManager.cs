@@ -6,6 +6,7 @@ using System.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class AccountManager : Singleton<AccountManager>
 {
@@ -78,28 +79,40 @@ public class AccountManager : Singleton<AccountManager>
     {
         F_initLoginInputField();        // 입력 초기화
 
-        string qurey = string.Format("SELECT * FROM {0} WHERE ID = '{1}'"
-            ,_accountTable, v_id);
-        DataSet data = DBConnector.Instance.F_Select(qurey, _accountTable);
-
-        if (data == null)
-            return false;
-        foreach (DataRow row in data.Tables[0].Rows)
+        try
         {
-            string uid = row["UID"].ToString();
-            string id = row["ID"].ToString();
-            string pw = row["PW"].ToString();
+            string qurey = string.Format("SELECT * FROM {0} WHERE ID = '{1}'"
+                ,_accountTable, v_id);
+            DataSet data = DBConnector.Instance.F_Select(qurey, _accountTable);
 
-            if (id == v_id && pw == v_pw)
+            if (data == null)
             {
-                _playerUID = int.Parse(uid);
-                _playerID = id;
-                _playerPW = pw;
+                _playerID = "Guest_" + Random.Range(0, 10000);
                 return true;
             }
+
+            foreach (DataRow row in data.Tables[0].Rows)
+            {
+                string uid = row["UID"].ToString();
+                string id = row["ID"].ToString();
+                string pw = row["PW"].ToString();
+
+                if (id == v_id && pw == v_pw)
+                {
+                    _playerUID = int.Parse(uid);
+                    _playerID = id;
+                    _playerPW = pw;
+                    return true;
+                }
+            }
+            UIManager.Instance.F_OnPopup(true, "Login Failed");
+            return false;
         }
-        UIManager.Instance.F_OnPopup(true, "Login Failed");
-        return false;
+        catch
+        {
+            _playerID = "Guest_" + Random.Range(0,10000);
+            return true;
+        }
     }
 
     private void F_initLoginInputField()
