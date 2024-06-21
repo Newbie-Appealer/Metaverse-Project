@@ -120,4 +120,9 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.F_SetCursor(false);
         GameManager.Instance._player.transform.position = new Vector3(-15, 5, 55);
     }
+
+    public void F_ExitGame()
+    {
+        Application.Quit();
+    }
 }
